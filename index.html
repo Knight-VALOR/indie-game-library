@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Muhammad Bashri | Indie Game Librarian</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet" />
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
+    .section {
+      display: none;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.5s cubic-bezier(0.4,0,0.2,1), transform 0.5s cubic-bezier(0.4,0,0.2,1);
+    }
+
+    .section.active {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 0.5s cubic-bezier(0.4,0,0.2,1), transform 0.5s cubic-bezier(0.4,0,0.2,1);
+    }
+    body {
+      font-family: 'Orbitron', sans-serif;
+      color: #f5f5f5;
+      background-color: #0e0e0e;
+      overflow-x: hidden;
+    }
+
+    .bg-image {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-image: url('https://i.postimg.cc/Wb96K8j8/1274380.png');
+      transition: background-image 0.6s cubic-bezier(0.4,0,0.2,1), filter 0.6s cubic-bezier(0.4,0,0.2,1);
+      filter: brightness(0.85) blur(0px);
+      background-size: cover;
+      background-position: center;
+      z-index: -1;
+      user-select: none;
+    }
+
+    .content-wrapper {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background: rgba(26, 26, 26, 0.8);
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      backdrop-filter: saturate(180%) blur(6px);
+      border-radius: 0 0 12px 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    }
+
+    .logo {
+      max-height: 60px;
+      max-width: 120px;
+    }
+
+    nav {
+      background: rgba(17, 17, 17, 0.8);
+      padding: 1rem;
+      text-align: center;
+      backdrop-filter: saturate(180%) blur(6px);
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.6);
+      max-width: 600px;
+      margin: 2rem auto 1rem auto;
+    }
+
+    nav a {
+      color: #f5f5f5;
+      margin: 0 1rem;
+      text-decoration: none;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 1.1rem;
+      transition: color 0.3s ease;
+    }
+
+    nav a:hover {
+      color: #ff4242;
+    }
+
+    main {
+      flex: 1;
+      max-width: 1000px;
+      margin: 0 auto 2rem auto;
+      width: 100%;
+      background: rgba(34, 34, 34, 0.85);
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.7);
+      backdrop-filter: saturate(180%) blur(8px);
+    }
+
+    .section {
+      display: none;
+    }
+
+    .section.active {
+      display: block;
+    }
+
+    .project {
+      background: rgba(51, 51, 51, 0.8);
+      margin: 1rem 0;
+      padding: 1rem;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+    }
+
+    .project img {
+      width: 100%;
+      max-width: 600px;
+      height: 340px;
+      object-fit: cover;
+      border-radius: 8px;
+      display: block;
+      margin: 0 auto 1rem auto;
+    }
+
+#chat-widget {
+  position: fixed;
+  bottom: 80px; /* adjust this to be above your footer */
+  right: 20px;
+  width: 320px;
+  max-width: 90vw;
+  background: #1e1e1e;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.6);
+  font-family: 'Orbitron', sans-serif;
+  color: #eee;
+  display: flex;
+  flex-direction: column;
+  z-index: 9999; /* make sure it's on top */
+}
+
+    footer {
+      text-align: center;
+      background: rgba(17, 17, 17, 0.9);
+      padding: 2rem;
+      margin-top: auto;
+      backdrop-filter: saturate(180%) blur(6px);
+      border-radius: 12px 12px 0 0;
+      box-shadow: 0 -4px 10px rgba(0,0,0,0.5);
+      color: #bbb;
+    }
+
+    button {
+      background: #ff4242;
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background: #e63535;
+    }
+
+    @media (max-width: 600px) {
+      header {
+        flex-direction: column;
+      }
+      .logo {
+        max-width: 80px;
+        max-height: 40px;
+      }
+      nav a {
+        display: inline-block;
+        margin: 0.5rem 1rem;
+      }
+      main {
+        padding: 1rem;
+        margin: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-image"></div>
+
+  <div class="content-wrapper">
+    <header>
+      <img src="https://i.postimg.cc/sDBDXz0d/Golden-Sw-ord-with-Tribal-Emblem.png" alt="Your Logo" class="logo" />
+      <div>
+        <h1 style="margin:0;">MUHAMMAD BASHRI BIN NOR HISHAM</h1>
+        <p style="margin:0;">Indie Game Enthusiast| Indie Game Librarian</p>
+      </div>
+    </header>
+
+    <main>
+      <nav>
+        <a onclick="showSection('about')">About</a>
+        <a onclick="showSection('game')">Featured Games</a>
+        <a onclick="showSection('contact')">Contact</a>
+      </nav>
+
+      <section id="about" class="section active">
+  <h2>About Me</h2>
+  <p>
+    Welcome to a space born from obsession, passion, and pixel dust. My name is Muhammad Bashri, and I’m an indie game librarian and collector with an unwavering mission: to unearth and preserve the overlooked, the forgotten, and the quietly brilliant corners of indie gaming. In a world dominated by blockbusters and mainstream titles, countless smaller games — often crafted with soul, creativity, and heartbreak — vanish into digital oblivion. I aim to stop that from happening.
+  </p>
+  <p>
+    This archive isn’t just a collection — it’s a digital sanctuary. Here, you’ll find pixelated dreamscapes, haunting soundtracks, surreal mechanics, and narratives that dare to be different. Whether it’s a platformer made by one person over ten years, a narrative RPG with themes of identity and loss, or a chaotic shooter that breaks every rule in the book, I spotlight games that resonate — emotionally, artistically, or mechanically.
+  </p>
+  <p>
+    I believe that every game tells a story, even those that never reach the front page of a digital storefront. My goal is to help those stories be seen, heard, and remembered. So whether you're a fellow collector, a curious gamer, or a developer whose voice deserves more light — this archive is for you. Let’s explore the strange, the beautiful, and the wonderfully obscure — together.
+  </p>
+</section>
+
+      <section id="game" class="section">
+        <h2>Featured Games</h2>
+        
+        <div style="margin-bottom: 1rem;">
+  <input 
+    type="text" 
+    id="game-search" 
+    placeholder="🔍 Search featured games..." 
+    style="
+      width: 100%;
+      padding: 12px;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: none;
+      outline: none;
+      font-family: 'Orbitron', sans-serif;
+      background-color: #222;
+      color: #f5f5f5;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+    "
+  />
+</div>
+
+
+        <div class="project">
+          <h3>Hyper Light Drifter</h3>
+          <img src="https://i.postimg.cc/8zvbJMkM/capsule-main-Cropped.png" alt="Hyper Light Drifter" />
+          <p>A visually striking action-adventure game inspired by classic 16-bit titles. Hyper Light Drifter combines fast-paced combat with cryptic storytelling and environmental exploration. Its haunting atmosphere, evocative pixel art, and minimalist design evoke a sense of mystery and loneliness throughout a fallen world.</p>
+          <p><strong>Genre:</strong> Action-Adventure, Pixel Art, Hack-and-Slash</p>
+        </div>
+
+        <div class="project">
+          <h3>Celeste</h3>
+          <img src="https://i.postimg.cc/gjR8QK6D/Whats-App-Image-2025-05-19-at-11-20-04-3cc34847.jpg" alt="Celeste" />
+          <p>Celeste is more than a platformer — it's an emotional journey of self-discovery. With razor-sharp controls and deeply challenging level design, players climb the eponymous mountain while facing personal demons. The game’s pixel art and stunning soundtrack form a heartfelt narrative about anxiety, perseverance, and growth.</p>
+          <p><strong>Genre:</strong> Platformer, Narrative, Precision</p>
+        </div>
+
+        <div class="project">
+          <h3>Shovel Knight</h3>
+          <img src="https://i.postimg.cc/qM3mn9jN/shovel-knight-quaphvvp16hex7mm.jpg" alt="Shovel Knight" />
+          <p>A love letter to NES-era platformers, Shovel Knight revives retro visuals and gameplay with modern design sensibilities. With a trusty shovel blade, players traverse handcrafted levels filled with danger, treasure, and quirky bosses. The game’s chiptune soundtrack and witty storytelling make it a standout in retro-inspired indies.</p>
+          <p><strong>Genre:</strong> Platformer, Retro, Action</p>
+        </div>
+
+         <div class="project">
+    <h3>Ender Magnolia: Bloom in the Mist</h3>
+    <img src="https://i.postimg.cc/PrjbK8RT/e8dc278e7b8f72aa301f9e65530c214ca4f05bfef914b1a37b3db8869e639ae8-1170x698.jpg" alt="Ender Magnolia" style="width:100%;max-width:600px;" />
+    <p>
+      A spiritual successor to Ender Lilies, Ender Magnolia deepens its melancholic metroidvania roots with haunting beauty and refined combat. Players journey as Lilac through a crumbling world full of machinery, helping homunculus by purifying them from the blight and strive together against the corrupted history of a society overtaken by magical corruption.
+    </p>
+    <p><strong>Genre:</strong> Metroidvania, Dark Fantasy, Atmospheric</p>
+  </div>
+
+  <div class="project">
+    <h3>Stardew Valley</h3>
+    <img src="https://i.postimg.cc/1z5N2GG1/782781.png" alt="Stardew Valley" style="width:100%;max-width:600px;" />
+    <p>
+      Stardew Valley is a cozy farming simulator with surprising depth. Beyond tending crops and animals, players build relationships, explore mysterious caves, and uncover secrets hidden in Pelican Town. It’s a heartfelt game about community, legacy, and peaceful living.
+    </p>
+    <p><strong>Genre:</strong> Farming Sim, Slice-of-Life, RPG</p>
+  </div>
+
+  <div class="project">
+    <h3>Dead Cells</h3>
+    <img src="https://i.postimg.cc/QdZQ4KYj/833257.jpg" alt="Dead Cells" style="width:100%;max-width:600px;" />
+    <p>
+      Dead Cells combines rogue-lite progression with tight, action-packed metroidvania gameplay. With fluid movement, brutal enemies, and an ever-evolving arsenal of weapons, each run is a high-stakes dance of death. The pixel art and soundtrack are icing on a deeply replayable experience.
+    </p>
+    <p><strong>Genre:</strong> Rogue-lite, Metroidvania, Action</p>
+  </div>
+
+  <div class="project">
+    <h3>OneShot</h3>
+    <img src="https://i.postimg.cc/hGb73Czr/oneshot-game-nikoand-fox-companion-vsud0k8znzwmcdty.jpg" alt="OneShot" style="width:100%;max-width:600px;" />
+    <p>
+      OneShot is a surreal puzzle adventure where the game knows it’s a game — and so do you. Guiding a child named Niko through a strange world, players must solve puzzles that break the fourth wall. Emotional, innovative, and unforgettable, OneShot invites players to reflect on purpose and connection.
+    </p>
+    <p><strong>Genre:</strong> Puzzle, Narrative, Meta</p>
+  </div>
+
+        <div class="project">
+          <h3>ULTRAKILL</h3>
+          <img src="https://i.postimg.cc/g2KHHdR2/ultrakill-red-silhouette-ahh4232x6mrm877v.jpg" alt="ULTRAKILL" />
+          <p>ULTRAKILL is a blood-soaked, adrenaline-fueled FPS that channels the chaos of '90s shooters like DOOM and Quake. Players speed through arenas, chaining attacks and performing stylish kills for points. It’s pure mayhem — violent, fast, and gloriously over-the-top, all with a unique scoring system that rewards mastery.</p>
+          <p><strong>Genre:</strong> FPS, Retro, Movement Shooter</p>
+        </div>
+
+        <div class="project">
+          <h3>Ender Lilies: Quietus of the Knights</h3>
+          <img src="https://i.postimg.cc/13cbVfKC/Wall-Paper-Miv4t.jpg" alt="Ender Lilies" />
+          <p>Set in a hauntingly beautiful ruined kingdom, Ender Lilies is a somber metroidvania with soulful storytelling and methodical combat. You play as a priestess who commands fallen knights to fight for her. Gorgeous hand-drawn visuals and an evocative soundtrack guide players through tragedy, hope, and forgotten lore.</p>
+          <p><strong>Genre:</strong> Metroidvania, Dark Fantasy, Exploration</p>
+        </div>
+
+        <div class="project">
+  <h3>Undertale</h3>
+  <img src="https://i.postimg.cc/Rh5sBBLM/undertale-toriel-sans-asgore-dreemurr-wallpaper-preview.jpg" alt="Undertale" />
+  <p>Undertale is a genre-defying RPG where you don’t have to kill anyone. With quirky humor, a memorable cast, and a battle system that lets you spare or fight, it explores themes of morality and consequence like few games ever have.</p>
+  <p><strong>Genre:</strong> RPG, Narrative, Bullet Hell</p>
+</div>
+
+<div class="project">
+  <h3>Hollow Knight</h3>
+  <img src="https://i.postimg.cc/pTg7L8RM/capsule-616x353.jpg" alt="Hollow Knight" />
+  <p>Hollow Knight is a deep and beautifully animated metroidvania set in the forgotten kingdom of Hallownest. With precision platforming, cryptic lore, and tough-as-nails bosses, it rewards the curious and the brave.</p>
+  <p><strong>Genre:</strong> Metroidvania, Action, Soulslike</p>
+</div>
+
+<div class="project">
+  <h3>Hades</h3>
+  <img src="https://i.postimg.cc/bv1S5fr0/Hades1.png" alt="Hades" />
+  <p>Battle out of the Underworld in this rogue-like dungeon crawler from Supergiant Games. Hades blends frenetic combat with rich storytelling, stunning art, and a reactive world full of Greek gods and monsters.</p>
+  <p><strong>Genre:</strong> Rogue-like, Action, Narrative</p>
+</div>
+
+<div class="project">
+  <h3>Cuphead</h3>
+  <img src="https://i.postimg.cc/5yDx1jkX/capsule-616x353-1.jpg" alt="Cuphead" />
+  <p>Cuphead is a run-and-gun boss rush game inspired by 1930s cartoons. With hand-drawn animations, jazz soundtracks, and brutal difficulty, it's a lovingly crafted challenge that rewards persistence and precision.</p>
+  <p><strong>Genre:</strong> Platformer, Boss Rush, Run-and-Gun</p>
+</div>
+
+<div class="project">
+  <h3>Katana ZERO</h3>
+  <img src="https://i.postimg.cc/RVcF9L49/38e07216-1081-4a26-9ea8-e627378a2e1d.jpg" alt="Katana ZERO" />
+  <p>Katana ZERO is a stylish neo-noir action platformer featuring instant-death combat and time-manipulation mechanics. Its fast-paced gameplay, cryptic story, and synth-heavy soundtrack create a violent but cerebral experience.</p>
+  <p><strong>Genre:</strong> Action, Platformer, Neo-noir</p>
+</div>
+
+<div class="project">
+  <h3>Dave the Diver</h3>
+  <img src="https://i.postimg.cc/sDf8DVRX/dave-the-diver-2.avif" alt="Dave the Diver" />
+  <p>A charming blend of deep-sea exploration and sushi restaurant management, Dave the Diver invites players to dive by day and serve sashimi by night. It's quirky, relaxing, and surprisingly addictive.</p>
+  <p><strong>Genre:</strong> Adventure, Management Sim, Casual</p>
+</div>
+
+<div class="project">
+  <h3>Spiritfarer</h3>
+  <img src="https://i.postimg.cc/GpzTRJP9/maxresdefault.jpg" alt="Spiritfarer" />
+  <p>Spiritfarer is a cozy management game about dying. As Stella, the ferrymaster to the deceased, you build relationships, upgrade your boat, and help spirits find peace. It's touching, beautiful, and meditative.</p>
+  <p><strong>Genre:</strong> Management, Narrative, Emotional</p>
+</div>
+
+<div class="project">
+  <h3>Risk of Rain 2</h3>
+  <img src="https://i.postimg.cc/CxhfQQD9/kss-Ul8-XMS7r-NA7pkqz-ZZNl6h.webp" alt="Risk of Rain 2" />
+  <p>Risk of Rain 2 is a third-person rogue-lite that throws you onto alien worlds filled with dangerous foes and loot. Time increases the difficulty, making every run a desperate race to survive and escape.</p>
+  <p><strong>Genre:</strong> Rogue-lite, Co-op, Third-Person Shooter</p>
+</div>
+
+<div class="project">
+  <h3>Phantom Abyss</h3>
+  <img src="https://i.postimg.cc/26rpQhgd/wallpaper-phantom-abyss-01-1920x10801.webp" alt="Phantom Abyss" />
+  <p>Phantom Abyss is a first-person asynchronous multiplayer game where players race through procedurally generated temples to claim relics. You only get one shot — fail, and that temple is lost forever.</p>
+  <p><strong>Genre:</strong> Asynchronous Multiplayer, Parkour, Adventure</p>
+</div>
+
+<div class="project">
+  <h3>Hades II</h3>
+  <img src="https://i.postimg.cc/Z5xXTCWC/gcpohzmg-Mwtbdqx8um-M2-AB.jpg" alt="Hades II" />
+  <p>The sequel to the award-winning Hades, Hades II brings even deeper rogue-like gameplay and a new protagonist: Melinoë, sister to Zagreus. With expanded mythological stories, more weapons, and refined mechanics, it aims to surpass its predecessor.</p>
+  <p><strong>Genre:</strong> Rogue-like, Action, Mythology</p>
+</div>
+      </section>
+
+      
+
+      <section id="contact" class="section">
+        <h2>Contact Me</h2>
+        <p>Do you know more games and want to help expand this libraries for indie games enthusiast? Looking to collaborate, archive a hidden gem, or just want to have a long good chat about obscure indies? Contact me!</p>
+        <p>Email: <a href="mailto:muhdbashri04@gmail.com" style="color: #ff4242;">muhdbashri04@gmail.com</a></p>
+         <p>
+    <a href="https://discord.gg/CVgHU2bw" target="_blank" style="color: #ff0000;">Join Our Discord Server</a>
+    
+        </p>
+        <br />
+        <button onclick="window.location.href='mailto:muhdbashri04@gmail.com'">Contact Me</button>
+      </section>
+    </main>
+
+    <footer>
+      <p>&copy; 2025 Muhammad Bashri. All Rights Reserved.</p>
+    </footer>
+  </div>
+
+  <script>
+    function showSection(sectionId) {
+      const sections = document.querySelectorAll('.section');
+      sections.forEach((section) => {
+        section.classList.remove('active');
+      });
+      document.getElementById(sectionId).classList.add('active');
+    }
+  </script>
+  
+  <script>
+  function showSection(sectionId) {
+    const sections = document.querySelectorAll('.section');
+    sections.forEach((section) => {
+      section.classList.remove('active');
+    });
+    document.getElementById(sectionId).classList.add('active');
+  }
+
+  // Live search for Featured Games
+  const searchInput = document.getElementById('game-search');
+  const gameProjects = document.querySelectorAll('#game .project');
+
+  if (searchInput) {
+    searchInput.addEventListener('input', () => {
+      const query = searchInput.value.toLowerCase();
+      gameProjects.forEach(project => {
+        const text = project.innerText.toLowerCase();
+        project.style.display = text.includes(query) ? 'block' : 'none';
+      });
+    });
+  }
+</script>
+
+ 
+
+</body>
+</html>
