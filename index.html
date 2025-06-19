@@ -194,6 +194,77 @@
         margin: 1rem;
       }
     }
+    #mock-chatbot {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 280px;
+  background: #1e1e1e;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.6);
+  font-family: 'Orbitron', sans-serif;
+  color: #eee;
+  z-index: 9999;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+#chat-header {
+  background: #ff4242;
+  padding: 0.75rem;
+  font-weight: bold;
+  text-align: center;
+  border-radius: 12px 12px 0 0;
+}
+
+#chat-body {
+  flex: 1;
+  padding: 0.75rem;
+  height: 200px;
+  overflow-y: auto;
+  background: #2b2b2b;
+}
+
+.chat-message {
+  margin-bottom: 0.5rem;
+  padding: 0.5rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+
+.chat-message.bot {
+  background: #383838;
+}
+
+.chat-message.user {
+  background: #ff4242;
+  text-align: right;
+}
+
+#chat-input-area {
+  display: flex;
+  border-top: 1px solid #444;
+}
+
+#chat-input-area input {
+  flex: 1;
+  padding: 0.5rem;
+  border: none;
+  outline: none;
+  background: #1a1a1a;
+  color: #f5f5f5;
+  font-family: 'Orbitron', sans-serif;
+}
+
+#chat-input-area button {
+  background: #ff4242;
+  border: none;
+  color: white;
+  padding: 0 1rem;
+  cursor: pointer;
+}
+
   </style>
 </head>
 <body>
@@ -204,19 +275,47 @@
     <header>
       <img src="https://i.postimg.cc/sDBDXz0d/Golden-Sw-ord-with-Tribal-Emblem.png" alt="Your Logo" class="logo" />
       <div>
-        <h1 style="margin:0;">MUHAMMAD BASHRI BIN NOR HISHAM</h1>
-        <p style="margin:0;">Indie Game Enthusiast| Indie Game Librarian</p>
+        <h1 style="margin:0;">INDIE GAMES LIBRARY</h1>
+        <p style="margin:0;">A place where you find the hidden gems of gaming world</p>
       </div>
     </header>
 
     <main>
       <nav>
-        <a onclick="showSection('about')">About</a>
-        <a onclick="showSection('game')">Featured Games</a>
-        <a onclick="showSection('contact')">Contact</a>
+          <a onclick="showSection('home')">Home</a>
+          <a onclick="showSection('about')">About</a>
+          <a onclick="showSection('game')">Featured Games</a>
+          <a onclick="showSection('contact')">Contact</a>
       </nav>
 
-      <section id="about" class="section active">
+<section id="home" class="section active">
+  <h2>Welcome to the Library</h2>
+  <p>Discover the forgotten gems and digital wonders of indie games. Some of the games videos:</p>
+  <div style="text-align: center; margin-top: 1rem;">
+  <iframe 
+    width="100%" 
+    height="480" 
+    style="max-width: 960px; border-radius: 12px;"
+    src="https://www.youtube.com/embed/70d9irlxiB4?si=HRYSIdIl9E6hZ5lF" 
+    title="YouTube video player" 
+    frameborder="0" 
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+    referrerpolicy="strict-origin-when-cross-origin" 
+    allowfullscreen>
+  </iframe>
+</div>
+
+  
+  <h3 style="text-align:center; margin-top: 2rem;">Featured Game Slideshow</h3>
+<div id="slideshow" style="max-width: 480px; margin: 1rem auto; position: relative;">
+  <img id="slideshow-image" src="https://i.postimg.cc/8zvbJMkM/capsule-main-Cropped.png" 
+       alt="Slideshow" style="width: 100%; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.5);">
+  <p id="slideshow-caption" style="text-align: center; margin-top: 0.5rem;">Hyper Light Drifter</p>
+</div>
+
+</section>
+
+      <section id="about" class="section">
   <h2>About Me</h2>
   <p>
     Welcome to a space born from obsession, passion, and pixel dust. My name is Muhammad Bashri, and I’m an indie game librarian and collector with an unwavering mission: to unearth and preserve the overlooked, the forgotten, and the quietly brilliant corners of indie gaming. In a world dominated by blockbusters and mainstream titles, countless smaller games — often crafted with soul, creativity, and heartbreak — vanish into digital oblivion. I aim to stop that from happening.
@@ -411,7 +510,7 @@
     </main>
 
     <footer>
-      <p>&copy; 2025 Muhammad Bashri. All Rights Reserved.</p>
+      <p>&copy; 2025 INDIE GAMES LIBRARY. All Rights Reserved.</p>
     </footer>
   </div>
 
@@ -447,9 +546,107 @@
       });
     });
   }
+  
+  const slideshowImages = [
+    {
+      src: "https://i.postimg.cc/8zvbJMkM/capsule-main-Cropped.png",
+      caption: "Hyper Light Drifter"
+    },
+    {
+      src: "https://i.postimg.cc/gjR8QK6D/Whats-App-Image-2025-05-19-at-11-20-04-3cc34847.jpg",
+      caption: "Celeste"
+    },
+    {
+      src: "https://i.postimg.cc/qM3mn9jN/shovel-knight-quaphvvp16hex7mm.jpg",
+      caption: "Shovel Knight"
+    },
+    {
+      src: "https://i.postimg.cc/PrjbK8RT/e8dc278e7b8f72aa301f9e65530c214ca4f05bfef914b1a37b3db8869e639ae8-1170x698.jpg",
+      caption: "Ender Magnolia"
+    },
+    {
+      src: "https://i.postimg.cc/1z5N2GG1/782781.png",
+      caption: "Stardew Valley"
+    },
+    {
+      src: "https://i.postimg.cc/QdZQ4KYj/833257.jpg",
+      caption: "Dead Cells"
+    },
+    {
+      src: "https://i.postimg.cc/hGb73Czr/oneshot-game-nikoand-fox-companion-vsud0k8znzwmcdty.jpg",
+      caption: "OneShot"
+    },
+    {
+      src: "https://i.postimg.cc/g2KHHdR2/ultrakill-red-silhouette-ahh4232x6mrm877v.jpg",
+      caption: "ULTRAKILL"
+    }
+  ];
+
+  let slideIndex = 0;
+
+  function showSlide(index) {
+    const imgElement = document.getElementById("slideshow-image");
+    const captionElement = document.getElementById("slideshow-caption");
+
+    const slide = slideshowImages[index];
+    imgElement.src = slide.src;
+    captionElement.textContent = slide.caption;
+  }
+
+  function startSlideshow() {
+    setInterval(() => {
+      slideIndex = (slideIndex + 1) % slideshowImages.length;
+      showSlide(slideIndex);
+    }, 3000); // 3 seconds per slide
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    showSlide(slideIndex);
+    startSlideshow();
+  });
+  function sendMockMessage() {
+  const input = document.getElementById("chat-input");
+  const chatBody = document.getElementById("chat-body");
+
+  if (input.value.trim() === "") return;
+
+  const userMessage = document.createElement("div");
+  userMessage.className = "chat-message user";
+  userMessage.textContent = input.value;
+  chatBody.appendChild(userMessage);
+
+  setTimeout(() => {
+    const botMessage = document.createElement("div");
+    botMessage.className = "chat-message bot";
+
+    // Simple mock response
+    if (input.value.toLowerCase().includes("celeste")) {
+      botMessage.textContent = "Celeste is a tough but emotional platformer about climbing and self-discovery!";
+    } else {
+      botMessage.textContent = "Sorry, I'm just a mock bot 🤖. Try asking about 'Celeste'.";
+    }
+
+    chatBody.appendChild(botMessage);
+    chatBody.scrollTop = chatBody.scrollHeight;
+  }, 1000);
+
+  input.value = "";
+  chatBody.scrollTop = chatBody.scrollHeight;
+}
+
+
 </script>
 
- 
+<div id="mock-chatbot">
+  <div id="chat-header">Chat with us 👋</div>
+  <div id="chat-body">
+    <div class="chat-message bot">Hi there! I'm IndieBot. Ask me about any game!</div>
+  </div>
+  <div id="chat-input-area">
+    <input type="text" id="chat-input" placeholder="Type a message..." />
+    <button onclick="sendMockMessage()">Send</button>
+  </div>
+</div>
 
 </body>
 </html>
